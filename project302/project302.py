@@ -15,7 +15,7 @@ class Project302:
 		self.nms_threshold = NMS;
 	def SetCONf(CONF):
 		self.conf_threshold = CONF;
-	def init_detection(self,model_proto,model_weight):
+	def init_detector(self,model_proto,model_weight):
 		self.detector = detection.Detection(model_proto,model_weight);
 	def init_tracker(self,model_proto,model_weight):
 		self.tracker = tracker.Tracker(model_proto,model_weight);
