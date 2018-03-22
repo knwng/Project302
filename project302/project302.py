@@ -1,4 +1,4 @@
-import detection.detection as detection
+import detector.detector as detector
 import tracker.tracker as tracker
 import cv2
 import numpy as np
@@ -16,7 +16,7 @@ class Project302:
 	def SetCONf(CONF):
 		self.conf_threshold = CONF;
 	def init_detector(self,model_proto,model_weight):
-		self.detector = detection.Detection(model_proto,model_weight);
+		self.detector = detector.Detector(model_proto,model_weight);
 	def init_tracker(self,model_proto,model_weight):
 		self.tracker = tracker.Tracker(model_proto,model_weight);
 	def Surveillance(self,image):
