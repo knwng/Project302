@@ -1,11 +1,14 @@
 import cv2
 import os
-from project302.project302 import Project302
+import sys
+import init_path
+from project302 import Project302
 import matplotlib.pyplot as plt 
-from config import* 
+from config import  cfg
+
 # This is ur testing video path
 video_dir = './videos/1.mov';
-cap = v2.VideoCapture(video_dir);
+cap = cv2.VideoCapture(video_dir);
 '''
 Here we initialize the project302
 1. init the class 
@@ -15,9 +18,10 @@ Here we initialize the project302
 4. surveillance   
 ''' 
 project = Project302(10,2);
-project.init_detector(detector_rfcn+'.prototxt',detector_rfcn + '.caffemodel');
-project.init_tracker(tracker_goturn+'.prototxt',detector_rfcn+ '.caffemodel');
+project.init_detector(cfg.detector_rfcn+'.prototxt',cfg.detector_rfcn + '.caffemodel');
+project.init_tracker(cfg.tracker_goturn+'.prototxt',cfg.tracker_goturn+ '.caffemodel');
 project.SetNMS(0.7);
+print('dalong log : init success');
 # initialize the video input and output 
 frame_width = 640;
 frame_height = 480;
@@ -27,7 +31,7 @@ def show_result(image,dets):
 	image = image[:,:,(2,1,0)];
 	for idnex in xrange(dets):
 		bbox = dets[index];
-		cv2.rectangle(image,(bbox[0,bbox[1]),(bbox[2],bbox[3]),(0,255,0),3);
+		cv2.rectangle(image,(bbox[0],bbox[1]),(bbox[2],bbox[3]),(0,255,0),3);
 	return image;
 def demo():
 	while(cap.isOpened()):

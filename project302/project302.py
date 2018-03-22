@@ -1,5 +1,6 @@
-import detector.detector as detector
-import tracker.tracker as tracker
+import sys
+import detector
+import tracker
 import cv2
 import numpy as np
 class Project302:
@@ -17,8 +18,10 @@ class Project302:
 		self.conf_threshold = CONF;
 	def init_detector(self,model_proto,model_weight):
 		self.detector = detector.Detector(model_proto,model_weight);
+		print('detector init success');
 	def init_tracker(self,model_proto,model_weight):
 		self.tracker = tracker.Tracker(model_proto,model_weight);
+		print('tracker init success');
 	def Surveillance(self,image):
 		'''
 		This is an interface for surveillance project
@@ -52,22 +55,22 @@ class Project302:
     		areas = (x2 - x1 + 1) * (y2 - y1 + 1)
     		order = scores.argsort()[::-1]
 
-   		 keep = []
+   		keep = []
     		while order.size > 0:
-        	i = order[0]
-        	keep.append(i)
-        	xx1 = np.maximum(x1[i], x1[order[1:]])
-        	yy1 = np.maximum(y1[i], y1[order[1:]])
-        	xx2 = np.minimum(x2[i], x2[order[1:]])
-        	yy2 = np.minimum(y2[i], y2[order[1:]])
+        		i = order[0]
+        		keep.append(i)
+        		xx1 = np.maximum(x1[i], x1[order[1:]])
+        		yy1 = np.maximum(y1[i], y1[order[1:]])
+        		xx2 = np.minimum(x2[i], x2[order[1:]])
+        		yy2 = np.minimum(y2[i], y2[order[1:]])
 
-        	w = np.maximum(0.0, xx2 - xx1 + 1)
-        	h = np.maximum(0.0, yy2 - yy1 + 1)
-        	inter = w * h
-        	ovr = inter / (areas[i] + areas[order[1:]] - inter)
+        		w = np.maximum(0.0, xx2 - xx1 + 1)
+        		h = np.maximum(0.0, yy2 - yy1 + 1)
+        		inter = w * h
+        		ovr = inter / (areas[i] + areas[order[1:]] - inter)
 
-        	inds = np.where(ovr <= thresh)[0]
-        	order = order[inds + 1]
+        		inds = np.where(ovr <= thresh)[0]
+        		order = order[inds + 1]
 
     		return keep
 	def Filter(self,image,bboxes):
@@ -96,9 +99,9 @@ class Project302:
 				plt.Rectangle((bbox[0],bbox[1]),
 					       bbox[2] - bbox[0],
 					       bbox[3] - bbox[1],
-					       fill =  False;
+					       fill =  False,
 					       edgecolor = 'g',
-					       linewidth = 3);
+					       linewidth = 3)
 			);
 			plt.show();
 

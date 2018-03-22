@@ -1,5 +1,4 @@
 #/uer/bin/env python
-
 from fast_rcnn.test import im_detect
 from fast_rcnn.nms_wrapper import nms
 import numpy as np 
@@ -7,8 +6,6 @@ import caffe
 
 CLASSES = ('__background__','face')
 
-#TODO：move nms module to a dependent folder
-#TODO: need to modify nms wrapper  
 '''
 Detection class :
 	input a cv2 image 
@@ -16,12 +13,13 @@ Detection class :
 '''
 class Detector :
 	
-	def __init__(self,model_proto,model_weight,CONF_THRESH = 0.8,NMS_THRESH = 0.3):
+	def __init__(self,model_proto,model_weight,CONF_THRESH = 0.8,NMS_THRESH = 0.7):
 		self.net = caffe.Net(model_proto,model_weight,caffe.TEST);
 		self.conf_thresh = CONF_THRESH;
 		self.nms_thresh = NMS_THRESH;
 		# we only need face answer 
-		slef.cls_ind = 1;
+		self.cls_ind = 1;
+		
 
 	def Set_CONF(CONF):
 		self.conf_thresh = CONF;

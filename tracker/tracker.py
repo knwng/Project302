@@ -49,7 +49,7 @@ class Tracker:
 		
 			return bboxes;
 		
-	def ConfFilter(self,dets,CONF_THRESH);
+	def ConfFilter(self,dets,CONF_THRESH):
 		pass
 	def UpdateBBoxCache(self,bboxes):
 		self.bbox_cache = bboxes;
