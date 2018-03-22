@@ -11,7 +11,7 @@ class Tracker:
 		self.image_cache = 0;
 
 		self.factor = FACTOR;
-		slef.scale_factor = 10;
+		self.scale_factor = 10;
 		# Problems here 
 		self.mean = np.array([104,117,123]);
 		self.image_dims = 0;
@@ -157,6 +157,8 @@ class Tracker:
 		return : bboxes  
 	
 		'''
+		if len(self.bbox_cache) < 1:
+			return np.array([]);
 		# prepare for the input
 		forward_kwargs, search_region = GetInput(image); 
 		# reshape the net
