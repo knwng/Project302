@@ -3,6 +3,8 @@
   This branch is created by dalong ,u can contact me by yuanxl14@mails.tsinghua.edu.cn 
 
   if u want the pretrained models ,please send the email first
+
+  SET ur caffe path in utils/init_path.py 
  	
 
   HAVE FUN !
