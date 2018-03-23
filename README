@@ -4,7 +4,7 @@
 
   if u want the pretrained models ,please send the email first
 
-  SET ur caffe path in utils/init_path.py 
+  SET ur caffe path in demos/init_path.py 
 
   FBI Warning
 
