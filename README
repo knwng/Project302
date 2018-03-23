@@ -5,6 +5,12 @@
   if u want the pretrained models ,please send the email first
 
   SET ur caffe path in utils/init_path.py 
+
+  FBI Warning
+
+  There's still some bugs in this projects and we are trying to fix it ASAP
+
+  and u can check the README to confirm if all bugs have been fixed  
  	
 
   HAVE FUN !
