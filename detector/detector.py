@@ -46,5 +46,5 @@ class Detector :
 		# is relatice small (e.g. , < 10k)
        		keep = nms(dets, NMS_THRESH,force_cpu =  True);
         	dets = dets[keep, :];
-		dets = ConfFilter(dets,self.CONF_THRESH);
+		dets = self.ConfFilter(dets,self.CONF_THRESH);
 		return dets.copy();	

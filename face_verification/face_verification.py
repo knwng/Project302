@@ -36,7 +36,7 @@ class FaceVerfication:
 		# TODO : here should be take carefully 
 		o1 = self.net.forward(data = face1)['fc5'][0].copy();
 		o2 = self.net.forward(data = face2)['fc5'][0].copy();
-		cosdist = o1.dot(o2) / (vlen(o1) * vlen(o2) + 1.0e-5);
+		cosdist = o1.dot(o2) / (self.vlen(o1) * self.vlen(o2) + 1.0e-5);
 		print('TIME COSUMING {}'.format(time.time() - since));
 		return cosdist;
 

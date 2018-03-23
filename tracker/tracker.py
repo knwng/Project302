@@ -7,8 +7,8 @@ class Tracker:
 		self.conf_thresh = CONF_THRESH;
 		self.nms_thresh = NMS_THRESH;
 
-		self.bbox_cache = 0;
-		self.image_cache = 0;
+		self.bbox_cache = np.array([]);
+		self.image_cache = np.array([]);
 
 		self.factor = FACTOR;
 		self.scale_factor = 10;
@@ -68,10 +68,10 @@ class Tracker:
 		input: bbox np.array  image: cv2 image 
 		return crop area location np.array
 		'''
-		bbox_center_x , bbox_center_y = GetBoxCenter(bbox);
+		bbox_center_x , bbox_center_y = self.GetBoxCenter(bbox);
 		image_width = image.shape(0);
 		image_height = image.shape(1);
-		output_width , output_height = GetOutputSize(bbox);
+		output_width , output_height = self.GetOutputSize(bbox);
 		left_half = min(output_width / 2, bbox_center_x);
 		right_half = min(output_width / 2, image_width - bbox_center_x);
 		roi_width = max(1.0,left_half + right_half);
@@ -86,11 +86,11 @@ class Tracker:
 	# Crop a region from image descripted by bbox ,and do padding when necessary
 	def CropPadImage(bbox,image):
 		edge_spacing_x = edge_spacing_y = 0;
-		output_width,output_height = GetOutputSize(bbox);
-		bbox_center_x ,bbox_center_y = GetBoxCenter(bbox);
+		output_width,output_height = self.GetOutputSize(bbox);
+		bbox_center_x ,bbox_center_y = self.GetBoxCenter(bbox);
 		image_width = image.shape(0);
 		image_height = image.shape(1);
-		x1,y1,x2,y2 = ComputrCropPadImageLocation(bbox,image);
+		x1,y1,x2,y2 = self.ComputrCropPadImageLocation(bbox,image);
 		pad_location = np.array([x1,y1,x2,y2]);
 		self.pad_location.append(pad_location);
 		roi_left = min(x1,image_width - 1);
@@ -132,11 +132,11 @@ class Tracker:
 					dtype = np.float32);
 	
 		for index in range(len(bbox_cache)):
-			target = CropPadImage(bbox[index],self.image_cache);
+			target = self.CropPadImage(bbox[index],self.image_cache);
 			search_region[index][0],search_region[index][1] = target.shape[0],target.shape[1];
 			target = caffe.io.resize_image(target,self.image_dims);
 			input_target[index] = target.copy();
-			image = CropPadImage(bbox[index],inputs);
+			image = self.CropPadImage(bbox[index],inputs);
 			image = caffe.io.resize_image(image,self.image_dims);
 			input_image[index] = image.copy();
 		caffe_target = np.zeros(np.array(input_target.shape)[[0,3,1,2]],dtype = np.float32);
@@ -160,14 +160,14 @@ class Tracker:
 		if len(self.bbox_cache) < 1:
 			return np.array([]);
 		# prepare for the input
-		forward_kwargs, search_region = GetInput(image); 
+		forward_kwargs, search_region = self.GetInput(image); 
 		# reshape the net
 		self.net.blobs['target'].reshape(**(forward_kwargs['target'].shape));
 		self.net.blobs['image'].reshape(**(forward_kwargs['image'].shape));
 		blobs_out = self.net.forward(**forward_kwargs);
 		bboxes  = self.net.blobs_out['fc8'];
 		# post process for bboxes 
-		bboxes = PostProcess(bboxes,search_region);
+		bboxes = self.PostProcess(bboxes,search_region);
 		# set cache and clear cache
 		self.image_cache = image;
 		self.bbox_cache = bboxes;

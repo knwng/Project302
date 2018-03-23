@@ -12,9 +12,12 @@ class Project302:
 		self.tracker = None;
 		self.detector = None;
 		self.show_result =show_result;
-	def SetNMS(NMS):
+		self.nms_threshold = 0;
+		self.conf_threshold = 1;
+
+	def SetNMS(self, NMS):
 		self.nms_threshold = NMS;
-	def SetCONf(CONF):
+	def SetCONf(self, CONF):
 		self.conf_threshold = CONF;
 	def init_detector(self,model_proto,model_weight):
 		self.detector = detector.Detector(model_proto,model_weight);
@@ -22,29 +25,6 @@ class Project302:
 	def init_tracker(self,model_proto,model_weight):
 		self.tracker = tracker.Tracker(model_proto,model_weight);
 		print('tracker init success');
-	def Surveillance(self,image):
-		'''
-		This is an interface for surveillance project
-		
-		it receives an image as an input and output bboxes for 
-		
-		'''
-		self.frame = self.frame + 1;
-		if(self.frame % detect_interval == 0):
-			#detect
-			dets = self.detector(image);
-			bboxes = dets[:,:-1];
-			scores = dets[:,-1];
-			self.tracker.UpdateImageCache(image);
-			self.tracker.UpdateBBoxCache(bboxes);  
-		else:
-			bboxes = self.tracker(image);
-		bboxes = Filter(image,bboxes);
-		if self.show_result :
-			Show_result(image,bboxes);
-		
-		# currently we only 
-		return bboxes;
 	def NMS(self,dets,thresh):
 		"""Pure Python NMS baseline."""
     		x1 = dets[:, 0]
@@ -84,7 +64,7 @@ class Project302:
 		# Do NMS Filter 
 		# for tracking ,we just use python implementation of nms 
 		# for detection, we use c version of nms 
-		keep = NMS(bboxes,self.nms_threshold);
+		keep = self.NMS(bboxes,self.nms_threshold);
 		return bboxes[keep,:];
 			
 		
@@ -105,3 +85,30 @@ class Project302:
 			);
 			plt.show();
 
+	def Surveillance(self,image):
+		'''
+		This is an interface for surveillance project
+		
+		it receives an image as an input and output bboxes for 
+		
+		'''
+		self.frame = self.frame + 1;
+		if(self.frame % self.detect_interval == 0):
+			#detect
+			dets = self.detector.Detect(image);
+			bboxes = dets[:,:-1];
+			scores = dets[:,-1];
+			self.tracker.UpdateImageCache(image);
+			self.tracker.UpdateBBoxCache(bboxes);  
+		else:
+			bboxes = self.tracker.Track(image);
+		if len(bboxes) == 0:
+			print('dalong log : no target found');
+			return np.array([]);
+		bboxes = self.Filter(image,bboxes);
+		if self.show_result :
+			self.Show_result(image,bboxes);
+		
+		# currently we only 
+		return bboxes;
+	
