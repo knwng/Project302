@@ -4,7 +4,7 @@ import sys
 import init_path
 from project302 import Project302
 import matplotlib.pyplot as plt 
-from config import cfg
+import config as cfg
 
 # This is ur testing video path
 video_dir = './videos/1.mov';
@@ -17,17 +17,17 @@ Here we initialize the project302
 4. set nms and confidence threshold
 4. surveillance   
 ''' 
-project = Project302(100,2);
+project = Project302(10,2);
 project.init_tracker(cfg.tracker_goturn+'.prototxt',cfg.tracker_goturn+ '.caffemodel');
 print('init tracker success');
 
-#project.init_detector(cfg.detector_rfcn+'.prototxt',cfg.detector_rfcn + '.caffemodel');
-#project.SetNMS(0.7);
+project.init_detector(cfg.detector_rfcn+'.prototxt',cfg.detector_rfcn + '.caffemodel');
+project.SetNMS(0.7);
 print('dalong log : init success');
 # initialize the video input and output 
 frame_width = 640;
 frame_height = 480;
-#output = cv2.VideoWriter('./results/output.avi',cv2.cv.CV_FOURCC('M','J','P','G'), 10, (frame_width,frame_height));
+# output = cv2.VideoWriter('./results/output.avi',cv2.cv.CV_FOURCC('M','J','P','G'), 10, (frame_width,frame_height));
 
 def show_result(image,dets):
 	image = image[:,:,(2,1,0)];

@@ -1,0 +1,9 @@
+*.pyc
+*.swp
+*.caffemodel
+*.prototxt
+caffe/*.*
+caffe/
+videos/
+results/
+venv/

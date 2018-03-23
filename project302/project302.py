@@ -4,7 +4,7 @@ import tracker
 import cv2
 import numpy as np
 class Project302:
-	def __init__(self,detect_interval,max_face,show_result = False):
+	def __init__(self, detect_interval, max_face, show_result = False):
 		print('init Project302\n');
 		self.detect_interval = detect_interval;
 		self.max_face = max_face;
@@ -19,7 +19,7 @@ class Project302:
 		self.nms_threshold = NMS;
 	def SetCONf(self, CONF):
 		self.conf_threshold = CONF;
-	def init_detector(self,model_proto,model_weight):
+	def init_detector(self, model_proto, model_weight):
 		self.detector = detector.Detector(model_proto,model_weight);
 		print('detector init success');
 	def init_tracker(self,model_proto,model_weight):

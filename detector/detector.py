@@ -21,9 +21,9 @@ class Detector :
 		self.cls_ind = 1;
 		
 
-	def Set_CONF(CONF):
+	def Set_CONF(self, CONF):
 		self.conf_thresh = CONF;
-	def SET_NMS(NMS):
+	def SET_NMS(self, NMS):
 		self.nms_thresh = NMS;
 	# Do confidence filter 
 	def ConfFilter(self,dets,CONF_THRESH):
