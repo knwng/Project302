@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import config as cfg
 
 # This is ur testing video path
-video_dir = './videos/1.mov';
-cap = cv2.VideoCapture(video_dir);
+video_dir = './videos/1.mov'
+cap = cv2.VideoCapture(video_dir)
 '''
 Here we initialize the project302
 1. init the class 
@@ -17,7 +17,7 @@ Here we initialize the project302
 4. set nms and confidence threshold
 4. surveillance   
 ''' 
-project = Project302(10,2);
+project = Project302(10, 2);
 project.init_tracker(cfg.tracker_goturn+'.prototxt',cfg.tracker_goturn+ '.caffemodel');
 print('init tracker success');
 
@@ -27,7 +27,7 @@ print('dalong log : init success');
 # initialize the video input and output 
 frame_width = 640;
 frame_height = 480;
-# output = cv2.VideoWriter('./results/output.avi',cv2.cv.CV_FOURCC('M','J','P','G'), 10, (frame_width,frame_height));
+output = cv2.VideoWriter('./results/output.avi',cv2.CV_FOURCC('M','J','P','G'), 10, (frame_width,frame_height));
 
 def show_result(image,dets):
 	image = image[:,:,(2,1,0)];
@@ -51,7 +51,7 @@ def demo():
 
 	# release resources 
 	cap.release();
- #       output.release();
+        output.release();
 
 if __name__ == '__main__':
 	demo();
